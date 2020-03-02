@@ -1,0 +1,764 @@
+{
+	"info": {
+		"_postman_id": "956da5f6-0383-4369-a47c-db112bd68b3b",
+		"name": "AutomationPro-vRA8",
+		"description": "Postman samples for use with vRA 8",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Obtain A Bearer Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c7f6f387-87ed-40f3-86b3-1152daad89d5",
+								"exec": [
+									"var data=JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", data.cspAuthToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"{{username}}\",\n\t\"password\": \"{{password}}\"\n}"
+						},
+						"url": {
+							"raw": "{{vra8uri}}/csp/gateway/am/api/login?{{access_token}}",
+							"host": [
+								"{{vra8uri}}"
+							],
+							"path": [
+								"csp",
+								"gateway",
+								"am",
+								"api",
+								"login"
+							],
+							"query": [
+								{
+									"key": "{{access_token}}",
+									"value": null
+								}
+							]
+						},
+						"description": "Obtain a token that can be used with subsequent requests to vRA8"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "User Roles",
+			"item": [
+				{
+					"name": "Get Organization ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6bf1aea-4ee7-4ff2-9b91-37ab4228bfb4",
+								"exec": [
+									"var data=JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"org_id\", data.items[0].id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "csp-auth-token",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{vra8uri}}/csp/gateway/am/api/loggedin/user/orgs",
+							"host": [
+								"{{vra8uri}}"
+							],
+							"path": [
+								"csp",
+								"gateway",
+								"am",
+								"api",
+								"loggedin",
+								"user",
+								"orgs"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Identity Service",
+			"item": [
+				{
+					"name": "Read an Organization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "csp-auth-token",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{vra8uri}}/csp/gateway/am/api/orgs/{{org_id}}",
+							"host": [
+								"{{vra8uri}}"
+							],
+							"path": [
+								"csp",
+								"gateway",
+								"am",
+								"api",
+								"orgs",
+								"{{org_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "IAAS",
+			"item": [
+				{
+					"name": "Cloud Accounts",
+					"item": [
+						{
+							"name": "Get Cloud Accounts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/cloud-accounts",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"cloud-accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get AWS Cloud Accounts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/cloud-accounts-aws",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"cloud-accounts-aws"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Azure Cloud Accounts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/cloud-accounts-azure",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"cloud-accounts-azure"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Azure Cloud Accounts vSphere",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/cloud-accounts-vsphere",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"cloud-accounts-vsphere"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Azure Cloud Accounts vSphere Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/cloud-accounts-nsx-t",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"cloud-accounts-nsx-t"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Flavor",
+					"item": [
+						{
+							"name": "Get Flavor Profiles",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/flavor-profiles",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"flavor-profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Flavors",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/flavors",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"flavors"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Images",
+					"item": [
+						{
+							"name": "Get Image Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/image-profiles",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"image-profiles"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Projects",
+					"item": [
+						{
+							"name": "Get projects",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "csp-auth-token",
+										"type": "text",
+										"value": "{{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/projects",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Project IDs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c61823fc-f740-4eed-9a8a-05138ef5f888",
+										"exec": [
+											"var data=JSON.parse(responseBody);",
+											"//postman.setEnvironmentVariable(\"access_token\", data.cspAuthToken);",
+											"",
+											"for (var cnt in data.content) {",
+											"    postman.setEnvironmentVariable(\"Project-\" + data.content[cnt].name + \"-ID\",data.content[cnt].id);",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "csp-auth-token",
+										"type": "text",
+										"value": "{{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/projects",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Project MetaData (tags)",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "csp-auth-token",
+										"type": "text",
+										"value": "{{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/projects/{{Project-AutomationPro-ID}}/resource-metadata",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"projects",
+										"{{Project-AutomationPro-ID}}",
+										"resource-metadata"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Tags",
+					"item": [
+						{
+							"name": "Get Tags",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vra8uri}}/iaas/api/tags?apiVersion={{latestApiVersion}}",
+									"host": [
+										"{{vra8uri}}"
+									],
+									"path": [
+										"iaas",
+										"api",
+										"tags"
+									],
+									"query": [
+										{
+											"key": "apiVersion",
+											"value": "{{latestApiVersion}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "About",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7ed08a5-17f4-46a7-86a5-ae6627f9bff6",
+								"exec": [
+									"var data=JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"latestApiVersion\", data.latestApiVersion);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vra8uri}}/iaas/api/about",
+							"host": [
+								"{{vra8uri}}"
+							],
+							"path": [
+								"iaas",
+								"api",
+								"about"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Deployments",
+			"item": [
+				{
+					"name": "Fetch All Deployments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "csp-auth-token",
+								"type": "text",
+								"value": "{{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{vra8uri}}/deployment/api/deployments",
+							"host": [
+								"{{vra8uri}}"
+							],
+							"path": [
+								"deployment",
+								"api",
+								"deployments"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Blueprint Requests",
+			"item": [
+				{
+					"name": "List Blueprint Requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vra8uri}}/blueprint/api/blueprint-requests",
+							"host": [
+								"{{vra8uri}}"
+							],
+							"path": [
+								"blueprint",
+								"api",
+								"blueprint-requests"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Policies",
+			"item": [
+				{
+					"name": "Return Policies (max 150)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vra8uri}}/policy/api/policies?$top=150",
+							"host": [
+								"{{vra8uri}}"
+							],
+							"path": [
+								"policy",
+								"api",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "$top",
+									"value": "150"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4f0cdf39-6136-47ae-a5e2-2e531b868765",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a2686977-e1cc-4f1b-9658-26ec7ffb3344",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "a11d61da-a355-4658-b25a-0679131f23a1",
+			"key": "vra8uri",
+			"value": "https://vra_server.domain.lan",
+			"type": "string"
+		},
+		{
+			"id": "7aa4111d-227b-4153-8002-275179ed83dc",
+			"key": "username",
+			"value": "Your_Username",
+			"type": "string"
+		},
+		{
+			"id": "449ce081-2e25-4338-a316-e7c5bcc83c6e",
+			"key": "password",
+			"value": "Your_Password",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
