@@ -1,2 +1,2 @@
 # automationpro
-AutomationPro.Co.Uk Repository
+AutomationPro.co.uk Repository
