@@ -1,10 +1,10 @@
 #!/bin/bash
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
+systemctl stop firewalld
+systemctl disable firewalld
 
 # create user for puppet
-sudo useradd -m -p "Password123!!" "svc_puppet"
-sudo usermod -aG wheel svc_puppet
+useradd -m -p "Password123!!" "svc_puppet"
+usermod -aG wheel svc_puppet
 
 cat >  /etc/sudoers.d/svc_puppet << EOF
 svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet node purge *
@@ -25,14 +25,14 @@ svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet resource service pu
 svc_puppet ALL = (root) NOPASSWD: /bin/cp /etc/puppetlabs/puppet/ssl/ca/ca_crl.pem /etc/puppetlabs/puppet/ssl/crl.pem
 EOF
 
-sudo mkdir /tmp/puppet
-sudo cd /tmp/puppet
-sudo curl -JLO 'https://pm.puppet.com/cgi-bin/download.cgi?dist=el&rel=7&arch=x86_64&ver=latest'
-sudo cd /tmp/puppet 
+mkdir /tmp/puppet
+cd /tmp/puppet
+curl -JLO 'https://pm.puppet.com/cgi-bin/download.cgi?dist=el&rel=7&arch=x86_64&ver=latest'
 sudo tar -xf *puppet-enterprise*.tar.gz
-sudo cd /tmp/puppet/puppet-ent*/ 
+cd /puppet-ent* 
 cat > pe.conf << EOF 
-"console_admin_password": "Password123!!" 
+"console_admin_password": "Password123!!"
+"puppet_enterprise::puppet_master_host": "%{::trusted.certname}"
 EOF
 
 export LANG=en_US.UTF-8 
@@ -40,7 +40,7 @@ export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 echo -e "\n== Installing Puppet Enterprise Server...\n"
-sudo /tmp/puppet/puppet-ent*/puppet-enterprise-installer -c pe.conf 
+./puppet-enterprise-installer -c pe.conf 
 
 echo -e "\n== Run Puppet Agent -t...\n"
 puppet agent -t
