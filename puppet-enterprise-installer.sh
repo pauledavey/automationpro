@@ -50,7 +50,7 @@ export LC_ALL=en_US.UTF-8
 /opt/puppetlabs/puppet/bin/puppet agent -t
 /opt/puppetlabs/puppet/bin/puppet agent -t
 
-cat >  /etc/motd << EOF
+cat >  /etc/issue << EOF
 ############################
 # Puppet Enterprise Server #
 ############################
