@@ -29,6 +29,12 @@ svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet-job run *
 svc_puppet ALL = (root) NOPASSWD: /bin/find /etc/puppetlabs/code/environments/*
 EOF
 
+cat >  /etc/motd << EOF
+############################
+# Puppet Enterprise Server #
+############################
+EOF
+
 mkdir -p /tmp/puppet
 
 wget 'https://pm.puppet.com/cgi-bin/download.cgi?dist=el&rel=7&arch=x86_64&ver=latest' -O /tmp/puppet/puppet-enterprise-installer.tar.gz
