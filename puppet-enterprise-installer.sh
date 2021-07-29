@@ -51,11 +51,14 @@ export LC_ALL=en_US.UTF-8
 echo -e "\n== Installing Puppet Enterprise Server...\n"
 /tmp/puppet/puppet-enterprise-installer -c /tmp/puppet/pe.conf 
 
-echo -e "\n== Run Puppet Agent -t...\n"
-puppet agent -t
-
-echo -e "\n== Run Puppet Agent -t...\n"
-puppet agent -t
-
 echo -e "\n== Installing bolt...\n"
-sudo /opt/puppetlabs/puppet/bin/gem install bolt          
+/opt/puppetlabs/puppet/bin/gem install bolt
+
+echo -e "\n== Run Puppet Agent -t...\n"
+puppet agent -t
+
+echo -e "\n== Run Puppet Agent -t...\n"
+puppet agent -t
+
+echo -e "\n== Shutdown in 1 minute...\n"
+shutdown -r 1
