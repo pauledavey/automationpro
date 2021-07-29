@@ -29,12 +29,6 @@ svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet-job run *
 svc_puppet ALL = (root) NOPASSWD: /bin/find /etc/puppetlabs/code/environments/*
 EOF
 
-cat >  /etc/motd << EOF
-############################
-# Puppet Enterprise Server #
-############################
-EOF
-
 mkdir -p /tmp/puppet
 
 wget 'https://pm.puppet.com/cgi-bin/download.cgi?dist=el&rel=7&arch=x86_64&ver=latest' -O /tmp/puppet/puppet-enterprise-installer.tar.gz
@@ -48,17 +42,16 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8 
 export LC_ALL=en_US.UTF-8
 
-echo -e "\n== Installing Puppet Enterprise Server...\n"
 /tmp/puppet/puppet-enterprise-installer -c /tmp/puppet/pe.conf 
-
-echo -e "\n== Installing bolt...\n"
 /opt/puppetlabs/puppet/bin/gem install bolt
+/opt/puppetlabs/puppet/bin/puppet agent -t
+/opt/puppetlabs/puppet/bin/puppet agent -t
+/opt/puppetlabs/puppet/bin/puppet agent -t
 
-echo -e "\n== Run Puppet Agent -t...\n"
-puppet agent -t
+cat >  /etc/motd << EOF
+############################
+# Puppet Enterprise Server #
+############################
+EOF
 
-echo -e "\n== Run Puppet Agent -t...\n"
-puppet agent -t
-
-echo -e "\n== Shutdown in 1 minute...\n"
 shutdown -r 1
