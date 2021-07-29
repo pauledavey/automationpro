@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 systemctl stop firewalld
 systemctl disable firewalld
 
