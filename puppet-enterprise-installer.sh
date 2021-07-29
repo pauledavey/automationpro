@@ -8,22 +8,25 @@ useradd -m -p "Password123!!" "svc_puppet"
 usermod -aG wheel svc_puppet
 
 cat >  /etc/sudoers.d/svc_puppet << EOF
-svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet node purge *
-svc_puppet ALL = (root) NOPASSWD: !/opt/puppetlabs/bin/puppet node purge *[[\:blank\:]]*
 svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet config print *
 svc_puppet ALL = (root) NOPASSWD: !/opt/puppetlabs/bin/puppet config print *[[\:blank\:]]*
+svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet resource service puppet ensure=stopped
+svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet resource service puppet ensure=running enable=true
 svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/facter -p puppetversion
 svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/facter -p pe_server_version
 svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet agent -t
-svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet agent â€“test â€“color\=false â€“detailed-exitcodes
-svc_puppet ALL = (root) NOPASSWD: /bin/kill -HUP *
-svc_puppet ALL = (root) NOPASSWD: !/bin/kill -HUP *[[\:blank\:]]*
-svc_puppet ALL = (root) NOPASSWD: !/opt/puppetlabs/bin/puppet node purge pe-201734-master.puppetdebug.vlan
+svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet agent --test --color=false --detailed-exitcodes
+svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet node purge *
+svc_puppet ALL = (root) NOPASSWD: !/opt/puppetlabs/bin/puppet node purge *[[\:blank\:]]*
+svc_puppet ALL = (root) NOPASSWD: !/opt/puppetlabs/bin/puppet node purge <%= $trusted[certname] %>
 svc_puppet ALL = (root) NOPASSWD: !/opt/puppetlabs/bin/puppet node purge pe-internal-mcollective-servers
 svc_puppet ALL = (root) NOPASSWD: !/opt/puppetlabs/bin/puppet node purge pe-internal-peadmin-mcollective-client
-svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet resource service puppet ensure\=stopped
-svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet resource service puppet ensure\=running enable\=true
-svc_puppet ALL = (root) NOPASSWD: /bin/cp /etc/puppetlabs/puppet/ssl/ca/ca_crl.pem /etc/puppetlabs/puppet/ssl/crl.pem
+svc_puppet ALL = (root) NOPASSWD: /bin/ls -1 /etc/puppetlabs/code/environments/
+svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet strings *
+svc_puppet ALL = (root) NOPASSWD: /usr/bin/cat /etc/puppetlabs/client-tools/services.conf
+svc_puppet ALL = (root) NOPASSWD: /usr/bin/curl *
+svc_puppet ALL = (root) NOPASSWD: /opt/puppetlabs/bin/puppet-job run *
+svc_puppet ALL = (root) NOPASSWD: /bin/find /etc/puppetlabs/code/environments/*
 EOF
 
 mkdir -p /tmp/puppet
