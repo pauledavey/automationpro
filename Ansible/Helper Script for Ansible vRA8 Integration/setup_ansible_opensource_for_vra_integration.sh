@@ -70,7 +70,8 @@ EOF
 
 echo "*Perform setup actions as the new ansible user" | tee -a ansible_setup_helper_log
 echo "*Generate ssh keys (public & private)" | tee -a ansible_setup_helper_log
-sudo -i -u ansible bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa -N 'fds8h734bjdsavf87'" | tee -a ansible_setup_helper_log
+#sudo -i -u ansible bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa -N 'fds8h734bjdsavf87'" | tee -a ansible_setup_helper_log
+sudo -i -u ansible bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''" | tee -a ansible_setup_helper_log
 
 echo ""
 echo "- Finalise"
