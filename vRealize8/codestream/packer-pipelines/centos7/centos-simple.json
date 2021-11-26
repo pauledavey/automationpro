@@ -48,7 +48,7 @@
 	"vsphere_vcenter": "",
 	"vsphere_datacenter": "",
 	"vsphere_datastore": "",
-        "vsphere_network",
+        "vsphere_network": "",
 	"ssh_username": "",
 	"ssh_password": ""
   }
